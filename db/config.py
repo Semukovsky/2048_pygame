@@ -4,18 +4,14 @@ import json
 
 
 class Settings(pydantic_settings.BaseSettings):
-    DB_HOST: str
-    DB_PORT: int
-    DB_USER: str
-    DB_PASS: str
-    DB_NAME: str
+
     chance_for_spawn_2: int
     chance_for_spawn_4: int
     chance_for_spawn_G: int
 
     @property
     def DATABASE_URL(self):
-        return f"postgresql+psycopg2://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        return f"sqlite:///database.db"
 
     @property
     def SETTINGS_GAME(self):

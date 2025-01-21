@@ -6,7 +6,7 @@ metadata = sqlalchemy.MetaData()
 
 boards = sqlalchemy.Table('boards', metadata,
                           sqlalchemy.Column(
-                              'id', sqlalchemy.Integer(), primary_key=True, autoincrement=True, unique=True,
+                              'id', sqlalchemy.Integer(), primary_key=True, unique=True,
                           ),
                           sqlalchemy.Column(
                               "size", sqlalchemy.Integer(), primary_key=True, nullable=False,
@@ -17,7 +17,7 @@ boards = sqlalchemy.Table('boards', metadata,
 
 games = sqlalchemy.Table('games', metadata,
                          sqlalchemy.Column(
-                             'id', sqlalchemy.Integer(), primary_key=True, autoincrement=True, unique=True,
+                             'id', sqlalchemy.Integer(), primary_key=True, unique=True,
                          ),
                          sqlalchemy.Column(
                              "points", sqlalchemy.Integer(), nullable=False,
