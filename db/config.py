@@ -1,17 +1,23 @@
+import pathlib
+
 import pydantic_settings
 
 import json
 
 
 class Settings(pydantic_settings.BaseSettings):
-
+    DB_HOST: str
+    DB_PORT: int
+    DB_USER: str
+    DB_PASS: str
+    DB_NAME: str
     chance_for_spawn_2: int
     chance_for_spawn_4: int
     chance_for_spawn_G: int
 
     @property
     def DATABASE_URL(self):
-        return f"sqlite:///database.db"
+        return f"postgresql+psycopg2://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
     @property
     def SETTINGS_GAME(self):
@@ -21,9 +27,10 @@ class Settings(pydantic_settings.BaseSettings):
             "chance_for_spawn_G": self.chance_for_spawn_G,
         }
 
-    model_config = pydantic_settings.SettingsConfigDict(env_file="../.env")
+    model_config = pydantic_settings.SettingsConfigDict(env_file=pathlib.Path(__file__).parent.parent.parent.absolute() / ".env")
 
 
-with open("user_setting.json", "r") as file:
+base_dir = pathlib.Path(__file__).parent.parent.absolute()
+with open(base_dir / "game" / "user_setting.json", "r") as file:
     json_data = json.load(file)
 settings = Settings(**json_data)

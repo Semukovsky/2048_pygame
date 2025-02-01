@@ -1,33 +1,28 @@
-import datetime
+from datetime import datetime
+from sqlalchemy import Column, Integer, Boolean, DateTime, VARCHAR, create_engine, func
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import desc
 
-import sqlalchemy
+Base = declarative_base()
 
-metadata = sqlalchemy.MetaData()
+class Game(Base):
+    __tablename__ = 'games'
 
-boards = sqlalchemy.Table('boards', metadata,
-                          sqlalchemy.Column(
-                              'id', sqlalchemy.Integer(), primary_key=True, unique=True,
-                          ),
-                          sqlalchemy.Column(
-                              "size", sqlalchemy.Integer(), primary_key=True, nullable=False,
-                          ),
-                          sqlalchemy.Column(
-                              "map", sqlalchemy.JSON(), nullable=False,
-                          ))
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    points = Column(Integer, nullable=False)
+    is_win = Column(Boolean, default=False)
+    datetime = Column(DateTime, default=datetime.now)
+    map = Column(VARCHAR, nullable=False)
+    size = Column(Integer, nullable=False)
+    steps = Column(Integer, nullable=False)
 
-games = sqlalchemy.Table('games', metadata,
-                         sqlalchemy.Column(
-                             'id', sqlalchemy.Integer(), primary_key=True, unique=True,
-                         ),
-                         sqlalchemy.Column(
-                             "points", sqlalchemy.Integer(), nullable=False,
-                         ),
-                         sqlalchemy.Column(
-                             "is_win", sqlalchemy.Boolean(), default=False,
-                         ),
-                         sqlalchemy.Column(
-                             "datetime", sqlalchemy.DateTime(), default=datetime.datetime.now,
-                         ),
-                         sqlalchemy.Column(
-                             "board_id", sqlalchemy.ForeignKey("boards.id"), default=None,
-                         ))
+    @classmethod
+    def get_best_score(cls, session):
+        best_score = session.query(func.max(cls.points)).scalar()
+        return best_score
+
+    @classmethod
+    def get_top_3_games(cls, session):
+        top_games = session.query(cls).order_by(desc(cls.points)).limit(3).all()
+        return top_games
