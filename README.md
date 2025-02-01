@@ -36,9 +36,10 @@
 
 ### 1. Создайте виртуальное окружение и Склонируйте репозиторий
 ```bash
-git clone (https://github.com/Semukovsky/Traveler-s-assistant.git)
-
+git@github.com:Semukovsky/2048_pygame.git
+```
 Для управления зависимостями проекта создайте виртуальное окружение:
+```bash
 python -m venv venv
 ```
 
