@@ -60,6 +60,17 @@ python -m venv venv
 ```bash
 pip install -r requirements.txt
 ```
+
+### 4. создайте и заполните файл .env
+Информация о заполнении лежит в файле template.env
+-Если вы сильно не меняли настройки Postgres Sql, то в файлик .env запишите слеующее:
+```bash
+DB_HOST="localhost"
+DB_PORT=5432
+DB_USER="postgres"
+DB_PASS="Ваш пароль"
+DB_NAME="game_2048_db"
+```
 ## Технологии
 - **annotated-types** – предоставляет аннотации типов для расширенной валидации данных.
 - **json** – модуль для работы с JSON-данными.
